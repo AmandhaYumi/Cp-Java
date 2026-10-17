@@ -60,4 +60,8 @@ Deploy `c6b0712` confirmado no Render em 17/10/2026. Conferidos no navegador: in
 
 ### Configuracao SMTP externa
 
-Em 17/10/2026 foi criada uma chave SMTP no Brevo e configurado o servico Render com `smtp-relay.brevo.com`, porta 2525, autenticacao e STARTTLS. Chave, login e remetente verificado foram salvos exclusivamente nas variaveis privadas do Render, sem inclusao no repositorio ou ZIP. A chave esta ativa no Brevo. O recebimento externo ainda nao foi confirmado: o teste de compra depende da aluna concluir o cadastro e login com seu e-mail real.
+Em 17/10/2026 foi configurado Brevo SMTP no Render. A compra ficticia #2 foi aprovada, transacao `7644b205-f021-497f-836c-d4b87d6cb6d3`. A confirmacao de e-mail falhou com `Connection refused`; a consulta somente-leitura ao PostgreSQL confirmou o registro FALHA.
+
+O diagnostico encontrou os parametros antigos `localhost:1025` ainda salvos e uma chave SMTP incorreta. Foram corrigidos o host para `smtp-relay.brevo.com`, porta 2525, autenticacao e STARTTLS. Uma nova chave foi gerada e comparada com o valor persistido no Render, sem revelar seu conteudo. A conexao temporaria de diagnostico ao banco foi removida apos a consulta.
+
+Chave, login e remetente ficam nas variaveis privadas do Render, sem inclusao no repositorio ou ZIP. A chave nova esta ativa no Brevo. O recebimento externo ainda nao foi confirmado e depende do teste apos o deploy corrigido.

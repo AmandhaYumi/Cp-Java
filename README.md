@@ -29,6 +29,7 @@ Capturas de 17/10/2026. Login de gerente e compra ficticia #1 aprovados no Rende
 ![Formulario de produto](docs/produto-formulario.jpg)
 ![Carrinho e formulario de pagamento](docs/carrinho.jpg)
 ![Compra aprovada com identificador da transacao](docs/compras.jpg)
+![Compra de teste numero 2 aprovada; envio de e-mail ainda em verificacao](docs/compra-teste-email.jpg)
 ![Painel de vendas](docs/painel.jpg)
 
 ## Funcionalidades entregues
