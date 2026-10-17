@@ -44,7 +44,7 @@ button, input, textarea { font: inherit; }
 .features article > span { color: var(--pink); font-size: 12px; font-weight: bold; }
 .features h2 { margin: 18px 0 10px; font-size: 19px; }
 .features p { margin: 5px 0; color: var(--muted); font-size: 15px; }
-footer { border-top: 1px solid var(--line); text-align: center; padding: 20px; font-size: 13px; color: var(--muted); }
+footer { text-align: center; padding: 20px; font-size: 13px; color: var(--muted); }
 .auth-brand { padding: 20px 5%; background: #fffafd; border-bottom: 1px solid var(--line); }
 .auth-shell { max-width: 470px; margin: 45px auto; padding: 0 15px; }
 .auth-copy { display: none; }
