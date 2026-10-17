@@ -1,0 +1,8 @@
+# Ative cloud para usar a instancia CloudAMQP configurada nesta maquina.
+# Credenciais externas ao classpath: nao entram no JAR nem no Git.
+spring:
+  config:
+    import: "file:./.secrets/cloudamqp.properties"
+app:
+  messaging:
+    enabled: true

@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: banco-tranquilo
+server:
+  port: ${PORT:9090}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health

@@ -1,0 +1,8 @@
+target
+.git
+.idea
+*.iml
+entrega
+.secrets
+.env
+.runtime

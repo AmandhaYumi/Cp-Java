@@ -1,0 +1,50 @@
+{
+  "info": {
+    "name": "Mercado Express CP5",
+    "description": "CRUD, checkout e API simulada do Banco Tranquilo.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [{"key": "baseUrl", "value": "http://localhost:8080"}],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {"key": "username", "value": "gerente@mercadoexpress.com", "type": "string"},
+      {"key": "password", "value": "Gerente@123", "type": "string"}
+    ]
+  },
+  "item": [
+    {
+      "name": "Listar produtos",
+      "request": {"method": "GET", "url": "{{baseUrl}}/api/products"}
+    },
+    {
+      "name": "Criar produto",
+      "request": {
+        "method": "POST",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {"mode": "raw", "raw": "{\n  \"name\": \"Cesta fitness\",\n  \"category\": \"Hortifruti\",\n  \"description\": \"Seleção saudável\",\n  \"price\": 69.90,\n  \"costPrice\": 41.50,\n  \"stock\": 12,\n  \"active\": true\n}"},
+        "url": "{{baseUrl}}/api/products"
+      }
+    },
+    {
+      "name": "Finalizar compra (aprovada)",
+      "auth": {"type": "basic", "basic": [{"key": "username", "value": "cliente@mercadoexpress.com", "type": "string"}, {"key": "password", "value": "Cliente@123", "type": "string"}]},
+      "request": {
+        "method": "POST",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {"mode": "raw", "raw": "{\n  \"items\": [{\"productId\": 1, \"quantity\": 2}],\n  \"cardHolder\": \"CLIENTE DEMO\",\n  \"cardNumber\": \"4111111111111111\"\n}"},
+        "url": "{{baseUrl}}/api/purchases"
+      }
+    },
+    {
+      "name": "Banco Tranquilo - simular pagamento recusado",
+      "auth": {"type": "noauth"},
+      "request": {
+        "method": "POST",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {"mode": "raw", "raw": "{\n  \"purchaseId\": 999,\n  \"amount\": 100.00,\n  \"cardHolder\": \"TESTE\",\n  \"cardNumber\": \"4111111111110000\"\n}"},
+        "url": "{{baseUrl}}/api/banco-tranquilo/pagamentos"
+      }
+    }
+  ]
+}

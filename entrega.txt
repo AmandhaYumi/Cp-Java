@@ -1,0 +1,22 @@
+CP5 - Java Advanced - Partes 1 e 2
+
+Turma: 2TDSPO
+Curso: Tecnologia em Analise e Desenvolvimento de Sistemas (TDS)
+
+Integrantes:
+- Amandha Yumi Toyota Artulino - RM563549
+
+IDE utilizada: IntelliJ IDEA
+Repositorio GitHub: https://github.com/AmandhaYumi/Cp-Java
+Deploy: [COLAR LINK]
+Plataforma de deploy: Render
+Video demonstrativo (YouTube nao listado): [COLAR LINK]
+
+Banco PostgreSQL para avaliacao:
+- Host: [PREENCHER]
+- Porta: 5432
+- Database: mercadoexpress
+- Usuario: [PREENCHER]
+- Senha: [ENVIAR APENAS AO PROFESSOR; NAO PUBLICAR NO GITHUB]
+
+Observacao: os dados entre colchetes devem ser preenchidos antes da entrega.
