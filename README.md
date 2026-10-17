@@ -20,6 +20,8 @@ Print fornecido durante a configuracao da instancia: as filas `mercado.pagamento
 
 ## Telas reais do deploy
 
+Interface simplificada a pedido da aluna: fonte Arial, titulos menores, bordas retas, sem sombras ou degrades e formularios mais basicos. O rosa e as funcionalidades foram mantidos. As capturas abaixo documentam os testes anteriores a essa simplificacao visual.
+
 Capturas de 17/10/2026. Login de gerente e compra ficticia #1 aprovados no Render com PostgreSQL e RabbitMQ externos; transacao `e420b91c-9b09-477d-b560-8bc95eb56462`. O primeiro print do painel mostra zero e-mails enviados porque foi capturado antes da configuracao do SMTP externo.
 
 ![Inicio do Mercadinho](docs/inicio.jpg)
