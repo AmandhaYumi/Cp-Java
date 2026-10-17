@@ -4,6 +4,8 @@
 
 **Repositorio:** https://github.com/AmandhaYumi/Cp-Java
 
+**Deploy:** https://mercado-express-cp5-rm563549.onrender.com
+
 Aplicação full stack em Java 21 que reúne as duas partes do Checkpoint 5: um e-commerce MVC protegido com Spring Security e um fluxo de pagamentos assíncrono com RabbitMQ, API do Banco Tranquilo, e-mail e dashboard gerencial.
 
 ![Configuração do Spring Initializr](docs/spring-initializr.png)
@@ -13,6 +15,19 @@ Aplicação full stack em Java 21 que reúne as duas partes do Checkpoint 5: um 
 ![Filas de solicitacoes e respostas criadas no CloudAMQP](docs/rabbitmq-filas.png)
 
 Print fornecido durante a configuracao da instancia: as filas `mercado.pagamentos.solicitacoes` e `mercado.pagamentos.respostas` estao em execucao. A contagem zero representa o estado daquela captura; a comprovacao do processamento exige o teste de compra descrito abaixo.
+
+## Telas reais do deploy
+
+Capturas de 17/10/2026. Login de gerente e compra ficticia #1 aprovados no Render com PostgreSQL e RabbitMQ externos; transacao `e420b91c-9b09-477d-b560-8bc95eb56462`. O dashboard mostra zero e-mails enviados porque o SMTP externo ainda nao foi configurado.
+
+![Landing page](docs/landing.jpg)
+![Login personalizado](docs/login.jpg)
+![Cadastro](docs/cadastro.jpg)
+![Catalogo e controles CRUD do gerente](docs/catalogo.jpg)
+![Formulario de produto](docs/produto-formulario.jpg)
+![Carrinho com cartao ficticio](docs/carrinho.jpg)
+![Compra aprovada com identificador da transacao](docs/compras.jpg)
+![Dashboard gerencial](docs/dashboard.jpg)
 
 ## Funcionalidades entregues
 
@@ -226,15 +241,21 @@ O script cria um produto de teste, atualiza, efetua uma compra aprovada e outra 
 4. Preencha os campos `MAIL_*` com seu provedor SMTP. O MailHog local nao esta disponivel no Render.
 5. O blueprint monta uma URL JDBC com o host e nome do banco gerenciado. `BANK_API_URL` usa o simulador bancario dentro do proprio container na porta padrao 10000 do Render; se mudar `PORT`, ajuste a URL tambem.
 
-O blueprint ativa a mensageria e exige um broker externo e SMTP configurados. O arquivo e uma preparacao de deploy: publicar efetivamente depende de conectar o repositorio e informar esses dados na conta Render. As credenciais locais de `.secrets/` nao sao publicadas.
+O blueprint ativa a mensageria e exige um broker externo e SMTP configurados. As credenciais locais de `.secrets/` nao sao publicadas.
+
+Em 17/10/2026, o repositorio foi publicado e os servicos `mercado-express-cp5-rm563549` (Docker, Free) e `mercado-express-db` (PostgreSQL 18, Free) foram criados no Render, em Oregon. Senhas do PostgreSQL e RabbitMQ ficam somente nas variaveis privadas do servico. Health check: `/actuator/health`. O banco gratuito indica expiracao em **16/11/2026**; apos essa data, o deploy depende da renovacao/substituicao do banco.
+
+**Limite do deploy:** SMTP externo ainda nao foi fornecido. A aprovacao do pagamento pode funcionar, mas a confirmacao externa por e-mail nao esta configurada e seu log registra falha. O envio foi validado localmente com Mailpit. O indicador de saude de SMTP foi desativado no Render para nao impedir o acesso ao restante da aplicacao. O banco educacional neste deploy e o simulador embarcado; a validacao completa local usa o servico Java separado.
+
+![Criacao do PostgreSQL gratuito no Render](docs/render-postgresql.jpg)
 
 ## Material de entrega
 
-- `entrega.txt`: completar turma, nomes, RMs, links do GitHub, deploy e vídeo.
+- `entrega.txt`: identificacao, GitHub e deploy preenchidos; completar link do video e fornecer acesso ao banco apenas em canal privado.
 - `ROTEIRO-VIDEO.md`: roteiro de 5 a 7 minutos cobrindo todos os itens pedidos.
 - `postman/`: coleção pronta para importação.
 - `docs/spring-initializr.png`: print obrigatório das dependências.
 - `docs/rabbitmq-filas.png`: print real fornecido pelo aluno, incluido neste README.
 - `docs/VALIDACAO.md`: resultados e limites dos testes executados.
 
-Antes de enviar, acrescente os demais prints (landing page, login, cadastro, CRUD, caixa de e-mail e dashboard); complete todos os campos de `entrega.txt`; grave o video; confirme o acesso publico nao listado; e atualize o ZIP sem `target/`, `.runtime/`, `.secrets/`, `.idea/` e `.env`.
+Antes de enviar, configure o SMTP externo e acrescente o print da caixa de e-mail; forneca o acesso ao banco ao professor em canal privado; grave o video de 5 a 7 minutos e complete seu link em `entrega.txt`; confirme o acesso publico nao listado; e atualize o ZIP sem `target/`, `.runtime/`, `.secrets/`, `.idea/` e `.env`.

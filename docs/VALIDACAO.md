@@ -29,7 +29,17 @@ O teste automatico de checkout usa banco H2 e substitui BancoTranquiloClient e J
 
 ![Filas no painel RabbitMQ](rabbitmq-filas.png)
 
-Captura fornecida pelo aluno. Os demais prints da interface ainda dependem de captura no navegador; respostas HTTP 200 comprovam renderizacao de template, nao verificacao visual de layout.
+Captura RabbitMQ fornecida pelo aluno. Prints reais do deploy foram adicionados ao README: landing, login, cadastro, catalogo, formulario CRUD, carrinho, compras e dashboard. Layout de landing, catalogo, formulario, carrinho e dashboard inspecionado visualmente.
+
+## Validacao do deploy Render
+
+- Site publico acessivel: https://mercado-express-cp5-rm563549.onrender.com
+- Compilacao Docker concluida e painel confirmou "Your service is live".
+- Logs confirmaram PostgreSQL 18.6 e conexao RabbitMQ TLS na porta 5671.
+- Login do gerente concluido na interface.
+- Compra ficticia #1 de R$ 39,90: de PENDENTE para APROVADA, transacao `e420b91c-9b09-477d-b560-8bc95eb56462`.
+- Dashboard confirmou uma venda, receita R$ 39,90 e lucro R$ 15,40. E-mails enviados: zero, pois SMTP externo pendente.
+- Testes Maven repetidos apos configuracao: quatro testes, zero falhas e zero erros.
 
 ## Limites e pendencias externas
 
@@ -37,7 +47,7 @@ Captura fornecida pelo aluno. Os demais prints da interface ainda dependem de ca
 - Mailpit nao encaminha mensagens para caixas externas. Para e-mail externo no deploy, informe um SMTP real em `MAIL_*`.
 - O Docker Compose foi preparado, mas o motor Docker desta maquina nao iniciou; a validacao completa usou os binarios portateis.
 - Identificacao preenchida: Amandha Yumi Toyota Artulino, RM563549, turma 2TDSPO.
-- Repositorio definido: `https://github.com/AmandhaYumi/Cp-Java`. Commit local preparado; envio bloqueado por falha de autenticacao do Git. A conexao GitHub disponivel nesta sessao possui apenas leitura nesse repositorio.
-- O Render abriu a tela de login; o deploy depende de entrar na conta.
-- O navegador continua negando acesso ao localhost por uma permissao salva, apesar da autorizacao em texto; os demais prints aguardam liberacao dessa permissao.
+- Repositorio publicado: `https://github.com/AmandhaYumi/Cp-Java`. Autenticacao via Git Credential Manager concluida pela aluna; push de `main` confirmado no remoto.
+- Render configurado com Docker Free, PostgreSQL 18 Free e RabbitMQ externo TLS. Senhas exclusivamente nas variaveis privadas. Banco gratuito com expiracao indicada para 16/11/2026.
+- O navegador continua negando acesso ao localhost por uma permissao salva; as capturas das telas foram realizadas no deploy publico. Print da caixa SMTP local ainda pendente.
 - Video de 5 a 7 minutos e credenciais SMTP para entrega externa ainda pendentes.

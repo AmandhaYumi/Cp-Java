@@ -8,15 +8,19 @@ Integrantes:
 
 IDE utilizada: IntelliJ IDEA
 Repositorio GitHub: https://github.com/AmandhaYumi/Cp-Java
-Deploy: [COLAR LINK]
+Deploy: https://mercado-express-cp5-rm563549.onrender.com
 Plataforma de deploy: Render
 Video demonstrativo (YouTube nao listado): [COLAR LINK]
 
 Banco PostgreSQL para avaliacao:
-- Host: [PREENCHER]
+- Host interno Render: dpg-db9u92eq1p3s739k6g10-a
 - Porta: 5432
 - Database: mercadoexpress
-- Usuario: [PREENCHER]
+- Usuario: mercadoexpress
 - Senha: [ENVIAR APENAS AO PROFESSOR; NAO PUBLICAR NO GITHUB]
 
 Observacao: os dados entre colchetes devem ser preenchidos antes da entrega.
+O host interno funciona apenas entre servicos do Render na mesma regiao.
+Para acesso externo do professor, fornecer o External Database URL em canal privado.
+PostgreSQL gratuito criado em 17/10/2026; expiracao indicada no painel: 16/11/2026.
+SMTP externo pendente; envio validado localmente com Mailpit.
