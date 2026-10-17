@@ -24,4 +24,5 @@ O host interno funciona apenas entre servicos do Render na mesma regiao.
 Para acesso externo do professor, fornecer o External Database URL em canal privado.
 PostgreSQL gratuito criado em 17/10/2026; expiracao indicada no painel: 16/11/2026.
 SMTP externo configurado no Render via Brevo, porta 2525 e STARTTLS.
-Validacao de entrega externa ainda pendente; envio local validado com Mailpit.
+Entrega externa da confirmacao da compra ficticia #3 confirmada no Brevo em 17/10/2026, as 19:05 (America/Sao_Paulo): Entregue.
+Evidencias no README; leitura e posicionamento na caixa de entrada/spam nao verificados.

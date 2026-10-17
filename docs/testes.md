@@ -64,4 +64,14 @@ Em 17/10/2026 foi configurado Brevo SMTP no Render. A compra ficticia #2 foi apr
 
 O diagnostico encontrou os parametros antigos `localhost:1025` ainda salvos e uma chave SMTP incorreta. Foram corrigidos o host para `smtp-relay.brevo.com`, porta 2525, autenticacao e STARTTLS. Uma nova chave foi gerada e comparada com o valor persistido no Render, sem revelar seu conteudo. A conexao temporaria de diagnostico ao banco foi removida apos a consulta.
 
-Chave, login e remetente ficam nas variaveis privadas do Render, sem inclusao no repositorio ou ZIP. A chave nova esta ativa no Brevo. O recebimento externo ainda nao foi confirmado e depende do teste apos o deploy corrigido.
+Chave, login e remetente ficam nas variaveis privadas do Render, sem inclusao no repositorio ou ZIP.
+
+### Entrega externa confirmada
+
+Em 17/10/2026, apos o deploy corrigido, a compra ficticia #3 de R$ 39,90 foi APROVADA, transacao `3bdc5d5d-6dfb-49d1-a161-6425c0177ff5`. O painel do aplicativo registrou um e-mail enviado. No Brevo, o assunto `Mercadinho - pagamento confirmado #3` apresentou os eventos Enviado e Entregue as 19:05 (America/Sao_Paulo), com destino ao e-mail FIAP da aluna. A previa do corpo continha o mesmo identificador de transacao.
+
+- [Compra aprovada](compra-email-confirmado.jpg).
+- [Confirmacao de entrega no Brevo](email-entregue.jpg).
+- Entregue e o estado informado pelo provedor; nao comprova leitura ou colocacao na caixa de entrada em vez de spam. O print da caixa pessoal ainda depende da aluna.
+- Apos a entrega e autorizacao expressa da aluna, apenas a chave antiga `Mercadinho Render` foi excluida definitivamente. A chave `Mercadinho SMTP validado` permaneceu ativa, sem alteracao das variaveis do site.
+- Esta atualizacao de evidencias nao altera codigo nem repete os sete testes Maven anteriores.

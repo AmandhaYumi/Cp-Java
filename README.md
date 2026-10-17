@@ -29,8 +29,15 @@ Capturas de 17/10/2026. Login de gerente e compra ficticia #1 aprovados no Rende
 ![Formulario de produto](docs/produto-formulario.jpg)
 ![Carrinho e formulario de pagamento](docs/carrinho.jpg)
 ![Compra aprovada com identificador da transacao](docs/compras.jpg)
-![Compra de teste numero 2 aprovada; envio de e-mail ainda em verificacao](docs/compra-teste-email.jpg)
+![Compra de teste numero 2 aprovada; tentativa anterior de e-mail falhou](docs/compra-teste-email.jpg)
 ![Painel de vendas](docs/painel.jpg)
+
+### E-mail externo confirmado
+
+Em 17/10/2026, a compra ficticia #3 de R$ 39,90 foi aprovada, transacao `3bdc5d5d-6dfb-49d1-a161-6425c0177ff5`. O aplicativo registrou um e-mail enviado e o Brevo confirmou os eventos **Enviado** e **Entregue**, as 19:05 (America/Sao_Paulo). Isso comprova a entrega pelo provedor, nao a leitura da mensagem nem sua colocacao na caixa de entrada em vez de spam.
+
+![Compra numero 3 aprovada no deploy](docs/compra-email-confirmado.jpg)
+![Brevo confirma o e-mail como Entregue](docs/email-entregue.jpg)
 
 ## Funcionalidades entregues
 
@@ -250,7 +257,7 @@ O blueprint ativa a mensageria e exige um broker externo e SMTP configurados. As
 
 Em 17/10/2026, o repositorio foi publicado e os servicos `mercado-express-cp5-rm563549` (Docker, Free) e `mercado-express-db` (PostgreSQL 18, Free) foram criados no Render, em Oregon. Senhas do PostgreSQL e RabbitMQ ficam somente nas variaveis privadas do servico. Health check: `/actuator/health`. O banco gratuito indica expiracao em **16/11/2026**; apos essa data, o deploy depende da renovacao/substituicao do banco.
 
-**E-mail no deploy:** configurado Brevo SMTP em `smtp-relay.brevo.com:2525`, com autenticacao e STARTTLS. Login, chave SMTP e remetente verificado ficam somente nas variaveis privadas `MAIL_USERNAME`, `MAIL_PASSWORD` e `MAIL_FROM` do Render. A confirmacao de entrega externa ainda depende do teste apos o deploy. O envio local foi validado com Mailpit. O indicador de saude de SMTP permanece desativado para nao impedir o acesso ao restante da aplicacao. O banco educacional neste deploy e o simulador embarcado; a validacao completa local usa o servico Java separado.
+**E-mail no deploy:** configurado Brevo SMTP em `smtp-relay.brevo.com:2525`, com autenticacao e STARTTLS. Login, chave SMTP e remetente verificado ficam somente nas variaveis privadas `MAIL_USERNAME`, `MAIL_PASSWORD` e `MAIL_FROM` do Render. A entrega externa da confirmacao da compra #3 foi confirmada no Brevo em 17/10/2026. O envio local foi validado com Mailpit. O indicador de saude de SMTP permanece desativado para nao impedir o acesso ao restante da aplicacao. O banco educacional neste deploy e o simulador embarcado; a validacao completa local usa o servico Java separado.
 
 No Render gratuito, as portas SMTP 25, 465 e 587 sao bloqueadas. Por isso foi usada a porta alternativa 2525 oferecida pelo Brevo. Nao use a senha da conta Brevo: `MAIL_PASSWORD` deve receber uma chave SMTP. Nao publique a chave nem o arquivo `.env`.
 
@@ -265,4 +272,4 @@ No Render gratuito, as portas SMTP 25, 465 e 587 sao bloqueadas. Por isso foi us
 - `docs/rabbitmq-filas.png`: print real fornecido pelo aluno, incluido neste README.
 - `docs/testes.md`: resultados e limites dos testes executados.
 
-Antes de enviar, conclua o teste de recebimento do SMTP externo e acrescente o print da caixa de e-mail; forneca o acesso ao banco ao professor em canal privado; grave o video de 5 a 7 minutos e complete seu link em `entrega.txt`; confirme o acesso publico nao listado; e atualize o ZIP sem `target/`, `.runtime/`, `.secrets/`, `.idea/` e `.env`.
+Antes de enviar, confira a caixa de entrada/spam e acrescente o print de recebimento, se exigido; forneca o acesso ao banco ao professor em canal privado; grave o video de 5 a 7 minutos e complete seu link em `entrega.txt`; confirme o acesso publico nao listado; e atualize o ZIP sem `target/`, `.runtime/`, `.secrets/`, `.idea/` e `.env`.
