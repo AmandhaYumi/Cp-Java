@@ -1,284 +1,223 @@
-# Mercadinho - CP5 Java Advanced
+# Mercadinho
 
-**Aluna:** Amandha Yumi Toyota Artulino - **RM:** 563549 - **Turma:** 2TDSPO.
+Projeto das partes 1 e 2 da CP5 de Java Advanced: uma loja online com controle de acesso, cadastro de produtos, carrinho, pagamento simulado e confirmação por e-mail.
 
-**Repositorio:** https://github.com/AmandhaYumi/Cp-Java
+**Aluna:** Amandha Yumi Toyota Artulino
 
-**Deploy:** https://mercado-express-cp5-rm563549.onrender.com
+**RM:** 563549 · **Turma:** 2TDSPO · **Curso:** Análise e Desenvolvimento de Sistemas
 
-Projeto das partes 1 e 2 da CP5 de Java Advanced. É uma loja online com cadastro, login, produtos, carrinho, pagamento simulado, e-mail e painel de vendas.
+**IDE utilizada:** IntelliJ IDEA
 
-O site agora se chama **Mercadinho** e usa uma paleta rosa. Os arquivos das telas usam nomes simples: `cadastro.html`, `carrinho.html`, `compras.html`, `produtos/lista.html`, `produtos/formulario.html`, `admin/painel.html` e `css/estilo.css`. Scripts: `iniciar-local.ps1`, `iniciar-docker.ps1`, `iniciar-nuvem.ps1`, `preparar-ambiente.ps1`, `gerar-zip.ps1` e `enviar-github.ps1`. Os pacotes Java, as contas de demonstracao, o endereco do Render e os identificadores de banco/mensageria foram preservados para manter a compatibilidade.
+- [Aplicação no Render](https://mercado-express-cp5-rm563549.onrender.com/)
+- [Repositório no GitHub](https://github.com/AmandhaYumi/Cp-Java)
+
+## Sobre o projeto
+
+O Mercadinho permite consultar produtos, criar uma conta e realizar compras com pagamento fictício. O gerente pode cadastrar, editar e desativar produtos, além de acompanhar os resultados da loja. As informações são persistidas no PostgreSQL.
+
+O projeto utiliza Java 21, Maven, Spring Boot 4.1.1, Spring MVC, Thymeleaf, Spring Security, Spring Data JPA, Validation, Lombok, PostgreSQL e RabbitMQ. O envio de e-mail utiliza Java Mail e o SMTP do Brevo no deploy. O H2 é usado nos testes e no perfil de demonstração.
+
+### Dependências do Spring Initializr
 
 ![Configuração do Spring Initializr](docs/spring-initializr.png)
 
-## Evidencia do RabbitMQ na nuvem
+## Páginas e funcionalidades
 
-![Filas de solicitacoes e respostas criadas no CloudAMQP](docs/rabbitmq-filas.png)
+### Página inicial
 
-Print fornecido durante a configuracao da instancia: as filas `mercado.pagamentos.solicitacoes` e `mercado.pagamentos.respostas` estao em execucao. A contagem zero representa o estado daquela captura; a comprovacao do processamento exige o teste de compra descrito abaixo.
+A página `index.html` apresenta a loja e os links para cadastro e login. As demais telas exigem autenticação, conforme as permissões de cada perfil.
 
-## Telas reais do deploy
+![Página inicial do Mercadinho](docs/inicio.jpg)
 
-Interface ajustada a pedido da aluna para um meio-termo: a estrutura de cartoes do visual original voltou, com cantos arredondados, rosa suave, titulos menores e fonte Arial. Sem sombras, degrades ou cartao inclinado. As funcionalidades foram mantidas.
+### Login e cadastro
 
-Versao intermediaria publicada e conferida no Render em 17/10/2026:
+A tela de login foi criada com Thymeleaf, substituindo a página padrão do Spring Security. O formulário envia `email` e `password` para `/login`. Após a autenticação, o usuário é direcionado ao catálogo em `/products`.
 
-![Inicio com visual rosa intermediario](docs/interface-simples.jpg)
-![Login com visual rosa intermediario](docs/login-simples.jpg)
+![Tela de login personalizada](docs/login.jpg)
 
-### Capturas anteriores dos testes funcionais
+O link **Cadastre-se** abre `/register`. O cadastro valida nome, e-mail e senha, verifica e-mail duplicado, codifica a senha com BCrypt e salva a conta em `TDS_USERS_MERCADO`. Novas contas recebem o perfil `CLIENTE`.
 
-Capturas de 17/10/2026. Login de gerente e compra ficticia #1 aprovados no Render com PostgreSQL e RabbitMQ externos; transacao `e420b91c-9b09-477d-b560-8bc95eb56462`. O primeiro print do painel mostra zero e-mails enviados porque foi capturado antes da configuracao do SMTP externo.
+![Cadastro de usuário](docs/cadastro.jpg)
 
-![Inicio do Mercadinho](docs/inicio.jpg)
-![Login personalizado](docs/login.jpg)
-![Cadastro](docs/cadastro.jpg)
-![Catalogo e controles CRUD do gerente](docs/catalogo.jpg)
-![Formulario de produto](docs/produto-formulario.jpg)
-![Carrinho e formulario de pagamento](docs/carrinho.jpg)
-![Compra aprovada com identificador da transacao](docs/compras.jpg)
-![Compra de teste numero 2 aprovada; tentativa anterior de e-mail falhou](docs/compra-teste-email.jpg)
-![Painel de vendas](docs/painel.jpg)
+As regras estão em [SecurityConfig.java](src/main/java/br/com/mercadoexpress/mercadoexpress/config/SecurityConfig.java). A autenticação das telas usa sessão; os formulários têm proteção CSRF. A API aceita Basic Auth para testes no Postman. O cadastro e a consulta dos usuários são implementados em [AccountService.java](src/main/java/br/com/mercadoexpress/mercadoexpress/service/AccountService.java).
 
-### E-mail externo confirmado
+| Perfil | Permissões |
+|---|---|
+| CLIENTE | Consultar produtos, comprar e visualizar suas próprias compras |
+| GERENTE | Recursos do cliente, CRUD de produtos e painel gerencial |
 
-Em 17/10/2026, a compra ficticia #3 de R$ 39,90 foi aprovada, transacao `3bdc5d5d-6dfb-49d1-a161-6425c0177ff5`. O aplicativo registrou um e-mail enviado e o Brevo confirmou os eventos **Enviado** e **Entregue**, as 19:05 (America/Sao_Paulo). Isso comprova a entrega pelo provedor, nao a leitura da mensagem nem sua colocacao na caixa de entrada em vez de spam.
+Por exemplo, um cliente que tenta acessar `/admin/dashboard` recebe HTTP 403. Os botões de edição e exclusão aparecem somente para o gerente, e as mesmas restrições são verificadas no servidor.
 
-![Compra numero 3 aprovada no deploy](docs/compra-email-confirmado.jpg)
-![Brevo confirma o e-mail como Entregue](docs/email-entregue.jpg)
+### Produtos e CRUD
 
-## Funcionalidades entregues
+O catálogo consulta o PostgreSQL e permite buscar por nome ou categoria. Cada produto possui nome, descrição, categoria, preço, custo, estoque e indicação de ativo.
 
-### Parte 1 - Spring Security MVC
+![Catálogo com controles do gerente](docs/catalogo.jpg)
 
-- Landing page obrigatória em `index.html`.
-- Tela de login personalizada e cadastro (Sign Up) persistido em `TDS_USERS_MERCADO`.
-- Dois tipos de usuário: `CLIENTE` compra e consulta seus pedidos; `GERENTE` também administra produtos e acessa o dashboard.
-- CRUD completo de produtos, na interface e na API, com exclusão lógica.
-- PostgreSQL e tabela principal `TDS_SEC_MVC_TB_MERCADO`.
-- Validação de formulários, senhas BCrypt, CSRF nas telas e autorização por rota.
-- Dockerfile, health check e modelo `render.yaml` para deploy no Render.
+O gerente utiliza **Novo produto** para cadastrar e **Editar** para alterar os dados. **Excluir** desativa o produto sem apagar o histórico das compras. A validação impede preço inválido e estoque negativo.
 
-### Parte 2 - Mensageria e integração
+![Formulário de edição de produto](docs/produto-formulario.jpg)
 
-- Carrinho e checkout com reserva de estoque.
-- Exchange direta `mercado.pagamentos.exchange`.
-- Fila de solicitações `mercado.pagamentos.solicitacoes` e fila de respostas `mercado.pagamentos.respostas`.
-- Cliente HTTP para a API do Banco Tranquilo e endpoint simulador reproduzível.
-- Confirmação por e-mail após pagamento aprovado; todo envio é auditado em `TDS_EMAIL_LOG_MERCADO`.
-- Compras e itens persistidos em `TDS_COMPRAS_MERCADO` e `TDS_ITENS_COMPRA_MERCADO`.
-- Dashboard com vendas, receita, lucro, estoque, e-mails e gráfico por categoria.
-- Coleção Postman com CRUD, checkout e simulação bancária.
+| Operação | Tela/rota MVC | Rota REST |
+|---|---|---|
+| Criar | `GET /products/new` e `POST /products` | `POST /api/products` |
+| Consultar | `GET /products` | `GET /api/products` |
+| Editar | `GET /products/{id}/edit` e `POST /products/{id}` | `PUT /api/products/{id}` |
+| Excluir logicamente | `POST /products/{id}/delete` | `DELETE /api/products/{id}` |
 
-## Arquitetura
+### Carrinho e compras
 
-```mermaid
-flowchart LR
-    U[Cliente / Gerente] --> MVC[Spring MVC + Thymeleaf]
-    MVC --> SEC[Spring Security]
-    MVC --> DB[(PostgreSQL)]
-    MVC --> EX[Exchange RabbitMQ]
-    EX --> Q1[Fila de solicitações]
-    Q1 --> INT[Integração de pagamentos]
-    INT --> BANK[API Banco Tranquilo - processo Java separado :9090]
-    INT --> Q2[Fila de respostas]
-    Q2 --> DB
-    Q2 --> MAIL[SMTP / Mailpit ou MailHog]
+O cliente adiciona os produtos ao carrinho e confere o total antes de finalizar. O checkout verifica e reserva o estoque, registra a compra como `PENDENTE` e inicia o processamento do pagamento.
+
+![Carrinho e formulário de pagamento](docs/carrinho.jpg)
+
+O histórico mostra apenas as compras do usuário autenticado, com valor, status e identificador da transação. A compra pode ficar `APROVADA` ou `RECUSADA`. Em uma recusa, o estoque reservado é devolvido.
+
+![Histórico com compra aprovada](docs/compras.jpg)
+
+**Exemplo de pagamento fictício:** titular `CLIENTE TESTE` e cartão `4111111111111111`. Para simular recusa, use um número com 13 a 19 dígitos terminado em `0000`. O Banco Tranquilo deste projeto é um simulador educacional: não há cobrança real e não devem ser usados dados reais de cartão.
+
+### Mensageria e integração bancária
+
+```text
+Checkout → RabbitMQ: solicitações → API Banco Tranquilo
+                                    ↓
+Compra atualizada ← RabbitMQ: respostas
+       ↓
+Confirmação por e-mail + registro no PostgreSQL
 ```
 
-O ambiente completo executa a aplicacao MVC e o simulador `banco-tranquilo/` como dois servicos Java independentes. O simulador e educacional: nao movimenta dinheiro e deve receber somente numeros ficticios de cartao. O perfil `demo` isolado mantem um simulador embarcado para uma apresentacao simplificada, sem RabbitMQ.
+A exchange direta `mercado.pagamentos.exchange` encaminha mensagens para as filas `mercado.pagamentos.solicitacoes` e `mercado.pagamentos.respostas`. O evento de solicitação é publicado depois do commit da compra, evitando que o consumidor consulte um pedido ainda não persistido.
 
-## Tecnologias
+![Filas de solicitações e respostas no RabbitMQ](docs/rabbitmq-filas.png)
 
-Java 21, Spring Boot 4.1.1, Spring MVC, Spring Security, Spring Data JPA, Thymeleaf, Validation, RabbitMQ, PostgreSQL, Java Mail, Lombok, Maven, Docker e H2 apenas para testes/demonstração local.
+Uma fila vazia pode indicar que as mensagens já foram consumidas. A integração usa HTTP para chamar `POST /api/banco-tranquilo/pagamentos`. No Docker Compose, o simulador em `banco-tranquilo/` roda como serviço Java separado. No Render, o endpoint simulado roda na própria aplicação; não é um serviço bancário externo real.
 
-## Executar a solução completa
+### Confirmação por e-mail
 
-Pré-requisito: Docker Desktop em execução.
+Após a aprovação, `EmailService` envia a confirmação com o valor e a transação. O resultado é salvo em `TDS_EMAIL_LOG_MERCADO`, incluindo falhas de envio. Uma falha no SMTP não transforma um pagamento aprovado em recusado.
+
+No deploy, o envio usa Brevo SMTP com autenticação e STARTTLS na porta 2525. A confirmação da compra de teste #3 foi marcada como **Entregue** pelo Brevo em 17/10/2026. Esse estado indica entrega pelo provedor, não leitura da mensagem.
+
+![Registro de envio e entrega no Brevo](docs/email-entregue.jpg)
+
+### Painel gerencial
+
+O painel `/admin/dashboard` apresenta vendas aprovadas, receita, lucro, itens em estoque, e-mails enviados, vendas por categoria e compras recentes. O lucro considera a diferença entre preço de venda e custo dos itens vendidos.
+
+![Painel gerencial com dados das compras](docs/painel.jpg)
+
+## Organização do código
+
+| Pasta em `src/main/java/.../mercadoexpress` | Responsabilidade |
+|---|---|
+| `config` | Segurança, RabbitMQ e dados iniciais |
+| `controller` | Rotas MVC e REST |
+| `domain` e `repository` | Entidades JPA e acesso ao banco |
+| `service` | Cadastro, produtos, checkout, painel e e-mail |
+| `messaging` | Eventos e processamento das solicitações e respostas |
+| `bank` | Cliente HTTP e objetos da integração bancária |
+| `web` | Dados recebidos pelos formulários e API |
+
+Os templates ficam em `src/main/resources/templates`, o CSS em `static/css/estilo.css` e as configurações em `application.yml`. O módulo `banco-tranquilo/` contém o simulador separado. A pasta `postman/` contém a coleção da API; `src/test/`, os testes automatizados.
+
+## Banco de dados
+
+| Tabela | Dados armazenados |
+|---|---|
+| `TDS_USERS_MERCADO` | Usuários, hashes BCrypt e perfis |
+| `TDS_SEC_MVC_TB_MERCADO` | Produtos e estoque |
+| `TDS_COMPRAS_MERCADO` | Compras, totais, status e transação |
+| `TDS_ITENS_COMPRA_MERCADO` | Itens e valores de cada compra |
+| `TDS_EMAIL_LOG_MERCADO` | Controle de envio de e-mails |
+
+A conexão é configurada em `application.yml` por variáveis de ambiente. O Hibernate utiliza `ddl-auto: update`. Senhas e chaves dos serviços externos não são incluídas no repositório.
+
+## Executar localmente
+
+Com Docker Desktop instalado e em execução, na pasta do `pom.xml`:
 
 ```bash
 docker compose up --build
 ```
 
-Serviços disponíveis:
+| Serviço local | Endereço |
+|---|---|
+| Mercadinho | http://localhost:8080 |
+| Banco Tranquilo | http://localhost:9090/actuator/health |
+| RabbitMQ Management | http://localhost:15672 |
+| MailHog | http://localhost:8025 |
+| PostgreSQL | `localhost:5432/mercadoexpress` |
 
-| Serviço | Endereço | Credenciais |
+No ambiente local do Compose, o usuário e a senha do PostgreSQL e RabbitMQ são `mercadoexpress`. São credenciais de demonstração, não as do deploy. O MailHog recebe mensagens de teste localmente, sem encaminhá-las para caixas externas. Para encerrar sem apagar o volume do banco, use `docker compose down`.
+
+Também é possível executar com JDK 21 e Maven Wrapper, configurando as variáveis de `.env.example` no terminal ou na IDE:
+
+```powershell
+.\mvnw.cmd spring-boot:run
+```
+
+Nesse modo, PostgreSQL, broker e SMTP devem estar disponíveis conforme a configuração. O arquivo `.env.example` é uma referência: o Spring não carrega arquivos `.env` automaticamente. Para usar a mensageria, configure `MESSAGING_ENABLED=true`. O perfil `demo` usa H2 temporário e processamento direto, sem representar o ambiente completo da integração.
+
+### Contas de demonstração
+
+| Perfil | E-mail | Senha |
 |---|---|---|
-| Aplicação | http://localhost:8080 | veja usuários abaixo |
-| RabbitMQ Management | http://localhost:15672 | `mercadoexpress` / `mercadoexpress` |
-| MailHog | http://localhost:8025 | sem login |
-| PostgreSQL | `localhost:5432/mercadoexpress` | `mercadoexpress` / `mercadoexpress` |
-| Banco Tranquilo separado | http://localhost:9090/actuator/health | simulador sem login |
+| Gerente | `gerente@mercadoexpress.com` | `Gerente@123` |
+| Cliente | `cliente@mercadoexpress.com` | `Cliente@123` |
 
-Para encerrar:
+Essas contas são destinadas à avaliação do projeto.
 
-```bash
-docker compose down
-```
+## API e exemplo no Postman
 
-Use `docker compose down -v` somente se desejar apagar também os dados do banco.
+Importe [a coleção do Mercadinho](postman/Mercadinho.postman_collection.json) e configure a variável de URL-base para o ambiente local ou o deploy. Os endpoints de produtos exigem gerente; o checkout aceita usuário autenticado. Selecione **Authorization → Basic Auth** com uma conta de demonstração.
 
-## Execução rápida sem Docker
-
-**Modo validado nesta maquina: PostgreSQL persistente + RabbitMQ CloudAMQP + Mailpit + Banco Tranquilo separado.** Execute na pasta que contem `pom.xml`:
-
-```powershell
-.\iniciar-local.ps1
-```
-
-Em uma maquina nova, primeiro execute `.\preparar-ambiente.ps1`, que baixa PostgreSQL e Mailpit dos fornecedores oficiais. Configure sua instancia RabbitMQ em `.secrets/cloudamqp.properties`. O script inicia o PostgreSQL apenas em `127.0.0.1:55432`, o SMTP apenas em `127.0.0.1:1025`, a caixa de e-mails em `http://localhost:8025` e o Banco Tranquilo separado em `http://localhost:9090`. Depois inicia o mercado em `http://localhost:8080`.
-
-Os dados persistem em `.runtime/postgres-data/` e os e-mails em `.runtime/mailpit.db`. A senha do banco local e gerada automaticamente em `.secrets/postgres-password.txt`. Esses arquivos privados nao entram no Git nem no ZIP. Mailpit e uma caixa SMTP de testes: o recebimento e real no servidor local, mas nao ha entrega para Gmail/Outlook.
-
-O fluxo foi validado com aprovacao, recusa, devolucao de estoque, auditoria de e-mail e persistencia apos reinicio. Veja [evidencias de validacao](docs/testes.md).
-
-### Alternativa com Docker e RabbitMQ CloudAMQP
-
-Para a demonstracao completa usando seu RabbitMQ CloudAMQP e PostgreSQL persistente, abra o Docker Desktop e execute:
-
-```powershell
-.\iniciar-docker.ps1
-```
-
-Esse comando sobe apenas PostgreSQL e MailHog no Docker, e inicia a aplicacao Java com o perfil `cloud`. O banco persiste no volume Docker `postgres_data`. Acesse `http://localhost:8025` para ler as mensagens capturadas pelo servidor SMTP de teste. MailHog recebe e-mails localmente; nao envia para uma caixa externa.
-
-Para usar a instancia real do CloudAMQP configurada nesta maquina, execute na pasta do projeto:
-
-```powershell
-.\iniciar-nuvem.ps1
-```
-
-O script ativa `demo,cloud`: banco H2 temporario e RabbitMQ real por TLS. Os dados do banco sao apagados ao encerrar; para a entrega, use PostgreSQL com apenas o perfil `cloud`. O envio de e-mail continua exigindo SMTP configurado.
-
-As credenciais ficam em `.secrets/cloudamqp.properties`, ignorado pelo Git e pelo Docker. Esse arquivo nao deve entrar no ZIP de entrega. Em outra maquina, crie-o com suas proprias configuracoes `spring.rabbitmq.host`, `port`, `username`, `password`, `virtual-host` e `ssl.enabled=true`. Nao inclua credenciais no README.
-
-No Windows, a máquina precisa usar o JDK 21. Se `JAVA_HOME` apontar para outra versão:
-
-```powershell
-$env:JAVA_HOME='C:\Program Files\Java\jdk-21'
-./mvnw.cmd spring-boot:run -Dspring-boot.run.profiles=demo
-```
-
-Neste perfil o H2 substitui temporariamente o PostgreSQL, a mensageria é direta e uma falha de SMTP fica registrada como `FALHA` sem impedir a compra.
-
-## Usuários de demonstração
-
-| Perfil | E-mail | Senha | Acesso |
-|---|---|---|---|
-| Gerente | `gerente@mercadoexpress.com` | `Gerente@123` | CRUD, compras e dashboard |
-| Cliente | `cliente@mercadoexpress.com` | `Cliente@123` | catálogo, carrinho e histórico |
-
-Novos cadastros recebem automaticamente o perfil `CLIENTE`. As contas acima são apenas dados de demonstração e devem ter as senhas trocadas em produção.
-
-## Fluxo de compra
-
-1. O usuário autenticado adiciona produtos ao carrinho.
-2. O checkout valida e reserva o estoque e grava a compra como `PENDENTE`. Somente depois do commit, publica `PaymentRequestedEvent` para que o consumidor encontre a compra no banco.
-3. O consumidor da fila chama `POST /api/banco-tranquilo/pagamentos`.
-4. O Banco Tranquilo aprova cartões válidos e recusa números terminados em `0000` (regra de demonstração).
-5. A resposta entra na segunda fila; a compra vira `APROVADA` ou `RECUSADA`. Em caso de recusa o estoque é devolvido.
-6. Uma aprovação dispara o e-mail e salva o resultado do envio no banco.
-
-## API e Postman
-
-Importe [`postman/Mercadinho.postman_collection.json`](postman/Mercadinho.postman_collection.json). A API usa autenticação Basic para facilitar a demonstração no Postman.
-
-Exemplo de checkout:
+Exemplo de requisição de compra com um produto ativo e estoque disponível:
 
 ```http
 POST /api/purchases
 Content-Type: application/json
 ```
 
-No Postman, selecione **Authorization > Basic Auth**, usuario `cliente@mercadoexpress.com` e senha `Cliente@123`. O Postman gera o cabecalho codificado automaticamente.
-
 ```json
 {
-  "items": [
-    {"productId": 1, "quantity": 2},
-    {"productId": 3, "quantity": 1}
-  ],
-  "cardHolder": "CLIENTE DEMO",
+  "items": [{"productId": 1, "quantity": 1}],
+  "cardHolder": "CLIENTE TESTE",
   "cardNumber": "4111111111111111"
 }
 ```
 
-Endpoints principais:
+A API retorna HTTP 202 com `purchaseId`, `status` e `total`. O resultado final pode ser consultado no histórico de compras depois do processamento. Um exemplo de criação de produto, autenticado como gerente:
 
-| Método | Rota | Regra |
-|---|---|---|
-| GET | `/products` | catálogo autenticado |
-| POST | `/products` | criação pelo gerente |
-| POST | `/products/{id}` | atualização pelo gerente |
-| POST | `/products/{id}/delete` | exclusão lógica pelo gerente |
-| GET | `/api/products` | consulta REST pelo gerente |
-| POST/PUT/DELETE | `/api/products` | CRUD REST pelo gerente |
-| POST | `/api/purchases` | checkout autenticado |
-| POST | `/api/banco-tranquilo/pagamentos` | simulador bancário público para integração |
-| GET | `/admin/dashboard` | somente gerente |
-
-## Banco de dados
-
-As credenciais são configuradas por variáveis de ambiente; nenhuma senha real fica versionada. Consulte `.env.example`.
-
-| Tabela | Finalidade |
-|---|---|
-| `TDS_USERS_MERCADO` | perfis e credenciais criptografadas |
-| `TDS_SEC_MVC_TB_MERCADO` | catálogo e estoque |
-| `TDS_COMPRAS_MERCADO` | cabeçalho, totais e status do pagamento |
-| `TDS_ITENS_COMPRA_MERCADO` | itens e valores históricos |
-| `TDS_EMAIL_LOG_MERCADO` | auditoria de envio de e-mails |
-
-O Hibernate cria/atualiza o esquema com `ddl-auto: update`. Para uma evolução de produção, o próximo passo seria versionar o esquema com Flyway.
-
-## Testes e build
-
-```powershell
-$env:JAVA_HOME='C:\Program Files\Java\jdk-21'
-./mvnw.cmd test
-./mvnw.cmd clean package
+```http
+POST /api/products
+Content-Type: application/json
 ```
 
-O teste de contexto usa o perfil `test` e banco H2 isolado, portanto não depende do PostgreSQL nem do RabbitMQ.
-
-`TelasTests` verifica as paginas publicas, a abertura das telas renomeadas pelo gerente, o novo nome e CSS rosa, e o bloqueio do painel para clientes. Total atual: sete testes, sem falhas.
-
-Ha tambem tres testes de integracao de checkout: aprovacao e e-mail persistidos apos commit, recusa com devolucao de estoque, e rejeicao de estoque insuficiente sem chamar o banco.
-
-Para repetir a verificacao com PostgreSQL, RabbitMQ real, servico bancario e SMTP locais em execucao:
-
-```powershell
-.\scripts\testar-compra.ps1
+```json
+{
+  "name": "Biscoito",
+  "category": "Mercearia",
+  "description": "Pacote de biscoito",
+  "price": 8.00,
+  "costPrice": 5.00,
+  "stock": 10,
+  "active": true
+}
 ```
 
-O script cria um produto de teste, atualiza, efetua uma compra aprovada e outra recusada, verifica o e-mail e o estoque, testa o acesso do cliente ao dashboard e exclui logicamente o produto de teste. O historico de compras de teste e mantido.
+## Testes
 
-## Deploy no Render
+```powershell
+.\mvnw.cmd test
+```
 
-1. Publique o repositório no GitHub.
-2. No Render, crie um Blueprint usando `render.yaml`.
-3. Preencha os campos privados `RABBITMQ_HOST`, `RABBITMQ_USERNAME`, `RABBITMQ_PASSWORD` e `RABBITMQ_VHOST` com os dados da instancia CloudAMQP. A porta 5671 e TLS ja estao configurados no blueprint.
-4. Preencha os campos `MAIL_*` com seu provedor SMTP. O MailHog local nao esta disponivel no Render.
-5. O blueprint monta uma URL JDBC com o host e nome do banco gerenciado. `BANK_API_URL` usa o simulador bancario dentro do proprio container na porta padrao 10000 do Render; se mudar `PORT`, ajuste a URL tambem.
+Os sete testes cobrem inicialização, páginas públicas, acesso do gerente, bloqueio do cliente ao painel, aprovação de compra, recusa com devolução de estoque e estoque insuficiente. Usam H2 e substitutos dos serviços externos; não dependem das credenciais de produção.
 
-O blueprint ativa a mensageria e exige um broker externo e SMTP configurados. As credenciais locais de `.secrets/` nao sao publicadas.
+O script `scripts/testar-compra.ps1` permite testar o fluxo no ambiente local com PostgreSQL, RabbitMQ, API bancária e Mailpit em execução. Ele consulta a API do Mailpit na porta 8025, cria dados de teste, realiza compras fictícias e verifica respostas, estoque e permissões. Não deve ser usado diretamente com o MailHog do Compose, que possui uma API diferente. Os resultados e o alcance da validação estão em [docs/testes.md](docs/testes.md).
 
-Em 17/10/2026, o repositorio foi publicado e os servicos `mercado-express-cp5-rm563549` (Docker, Free) e `mercado-express-db` (PostgreSQL 18, Free) foram criados no Render, em Oregon. Senhas do PostgreSQL e RabbitMQ ficam somente nas variaveis privadas do servico. Health check: `/actuator/health`. O banco gratuito indica expiracao em **16/11/2026**; apos essa data, o deploy depende da renovacao/substituicao do banco.
+## Hospedagem
 
-**E-mail no deploy:** configurado Brevo SMTP em `smtp-relay.brevo.com:2525`, com autenticacao e STARTTLS. Login, chave SMTP e remetente verificado ficam somente nas variaveis privadas `MAIL_USERNAME`, `MAIL_PASSWORD` e `MAIL_FROM` do Render. A entrega externa da confirmacao da compra #3 foi confirmada no Brevo em 17/10/2026. O envio local foi validado com Mailpit. O indicador de saude de SMTP permanece desativado para nao impedir o acesso ao restante da aplicacao. O banco educacional neste deploy e o simulador embarcado; a validacao completa local usa o servico Java separado.
+A aplicação está no Render, com build pelo `Dockerfile`, PostgreSQL gerenciado, RabbitMQ no CloudAMQP e SMTP do Brevo. O arquivo `render.yaml` descreve a configuração de implantação. As credenciais ficam nas variáveis privadas do serviço. O endpoint `/actuator/health` fornece a verificação de saúde.
 
-No Render gratuito, as portas SMTP 25, 465 e 587 sao bloqueadas. Por isso foi usada a porta alternativa 2525 oferecida pelo Brevo. Nao use a senha da conta Brevo: `MAIL_PASSWORD` deve receber uma chave SMTP. Nao publique a chave nem o arquivo `.env`.
-
-![Criacao do PostgreSQL gratuito no Render](docs/render-postgresql.jpg)
-
-## Material de entrega
-
-- `entrega.txt`: identificacao, GitHub e deploy preenchidos; completar link do video e fornecer acesso ao banco apenas em canal privado.
-- `roteiro-video.md`: roteiro de 5 a 7 minutos cobrindo todos os itens pedidos.
-- `postman/`: coleção pronta para importação.
-- `docs/spring-initializr.png`: print obrigatório das dependências.
-- `docs/rabbitmq-filas.png`: print real fornecido pelo aluno, incluido neste README.
-- `docs/testes.md`: resultados e limites dos testes executados.
-
-Antes de enviar, confira a caixa de entrada/spam e acrescente o print de recebimento, se exigido; forneca o acesso ao banco ao professor em canal privado; grave o video de 5 a 7 minutos e complete seu link em `entrega.txt`; confirme o acesso publico nao listado; e atualize o ZIP sem `target/`, `.runtime/`, `.secrets/`, `.idea/` e `.env`.
+O plano gratuito pode suspender a aplicação quando não há acesso. O banco gratuito criado para este projeto indica expiração em 16/11/2026.

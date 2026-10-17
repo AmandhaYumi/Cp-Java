@@ -1,87 +1,28 @@
-# Validacao executada em 17/10/2026
+# Testes do Mercadinho
 
-## Ambiente usado
+## Testes automatizados
 
-- JDK 21 e Spring Boot 4.1.1.
-- PostgreSQL 17.11 portatil em `127.0.0.1:55432`, com autenticacao por senha e dados persistentes.
-- RabbitMQ real no CloudAMQP, conectado com TLS na porta 5671.
-- Mailpit local, SMTP 1025 e interface HTTP 8025.
-- Servico Java `banco-tranquilo/` em processo separado na porta 9090.
+Execução em 17/10/2026 com Java 21 pelo comando `./mvnw.cmd test`: sete testes, zero falhas, zero erros e nenhum ignorado.
 
-## Resultados observados
-
-| Verificacao | Resultado |
+| Classe | Casos |
 |---|---|
-| Maven - testes da aplicacao | 4 testes, zero falhas, zero erros |
-| Maven - pacote do Banco Tranquilo | BUILD SUCCESS |
-| CRUD REST com perfil gerente | criar, consultar, atualizar e excluir logicamente: aprovado |
-| Cliente acessando dashboard gerencial | HTTP 403 |
-| Templates de catalogo, formulario, carrinho, historico, login, cadastro e dashboard | HTTP 200 para os acessos permitidos |
-| Compra aprovada via RabbitMQ | status APROVADA persistido, transacao preenchida |
-| Compra recusada via RabbitMQ | status RECUSADA persistido, estoque devolvido |
-| E-mail de confirmacao | recebido no SMTP local e registro ENVIADO no PostgreSQL |
-| Reinicio da aplicacao | compras 1 a 4 e dois registros de e-mail mantidos no PostgreSQL |
-| Script completo com servico bancario separado | compras 34 e 35: aprovada e recusada; estoque final 3; e-mail recebido; CRUD OK |
+| `MercadoexpressApplicationTests` | Inicialização do contexto |
+| `TelasTests` | Páginas públicas e CSS; telas do gerente; acesso negado ao painel para cliente |
+| `CheckoutFlowIntegrationTests` | Aprovação; recusa com devolução de estoque; estoque insuficiente |
 
-O teste automatico de checkout usa banco H2 e substitui BancoTranquiloClient e JavaMailSender por mocks para verificar transacoes. O teste manual/script acima usou PostgreSQL, RabbitMQ, HTTP bancario e SMTP reais, com dados ficticios.
+Os testes usam H2 isolado. Os serviços bancário e de e-mail são substituídos por mocks nos testes de checkout. Portanto, o resultado automatizado não comprova disponibilidade de PostgreSQL, RabbitMQ ou SMTP externos.
 
-## Evidencia visual disponivel
+## Integração
 
-![Filas no painel RabbitMQ](rabbitmq-filas.png)
+Em 17/10/2026, o fluxo também foi validado com PostgreSQL persistente, RabbitMQ CloudAMQP por TLS, simulador Banco Tranquilo em processo Java separado e caixa SMTP local Mailpit. Foram verificados CRUD, aprovação, recusa, estoque, registro de e-mail e persistência após reinício.
 
-Captura RabbitMQ fornecida pelo aluno. Prints reais do deploy foram adicionados ao README: landing, login, cadastro, catalogo, formulario CRUD, carrinho, compras e dashboard. Layout de landing, catalogo, formulario, carrinho e dashboard inspecionado visualmente.
+No Render, foram conferidos login do gerente, catálogo, formulário de produto, carrinho, histórico e painel. As compras fictícias #1, #2 e #3 foram aprovadas. A confirmação por e-mail da compra #3 recebeu o estado **Entregue** no Brevo. O painel registrou três vendas aprovadas e um e-mail enviado na captura atual.
 
-## Validacao do deploy Render
+As imagens atuais das telas estão no README. A captura do Brevo comprova o estado informado pelo provedor, não leitura pelo destinatário.
 
-- Site publico acessivel: https://mercado-express-cp5-rm563549.onrender.com
-- Compilacao Docker concluida e painel confirmou "Your service is live".
-- Logs confirmaram PostgreSQL 18.6 e conexao RabbitMQ TLS na porta 5671.
-- Login do gerente concluido na interface.
-- Compra ficticia #1 de R$ 39,90: de PENDENTE para APROVADA, transacao `e420b91c-9b09-477d-b560-8bc95eb56462`.
-- Dashboard confirmou uma venda, receita R$ 39,90 e lucro R$ 15,40. E-mails enviados: zero, pois SMTP externo pendente.
-- Testes Maven repetidos apos configuracao: quatro testes, zero falhas e zero erros.
+## Limites
 
-## Limites e pendencias externas
-
-### Atualizacao para Mercadinho
-
-Nome do site, textos e produtos simplificados; tema rosa; nomes de templates, scripts e documentos em portugues. Identificadores internos preservados. Sete testes Maven passaram, incluindo tres novos testes HTTP das telas renomeadas e da restricao do painel para clientes.
-
-Deploy `c6b0712` confirmado no Render em 17/10/2026. Conferidos no navegador: inicio, cadastro, login do gerente, catalogo com novos nomes, formulario de produto, carrinho, historico e painel. Compra #1 e indicadores anteriores preservados. Capturas atualizadas no README com tema rosa.
-
-- Banco Tranquilo e um simulador educacional, nao uma conexao bancaria real.
-- Mailpit nao encaminha mensagens para caixas externas. Para e-mail externo no deploy, informe um SMTP real em `MAIL_*`.
-- O Docker Compose foi preparado, mas o motor Docker desta maquina nao iniciou; a validacao completa usou os binarios portateis.
-- Identificacao preenchida: Amandha Yumi Toyota Artulino, RM563549, turma 2TDSPO.
-- Repositorio publicado: `https://github.com/AmandhaYumi/Cp-Java`. Autenticacao via Git Credential Manager concluida pela aluna; push de `main` confirmado no remoto.
-- Render configurado com Docker Free, PostgreSQL 18 Free e RabbitMQ externo TLS. Senhas exclusivamente nas variaveis privadas. Banco gratuito com expiracao indicada para 16/11/2026.
-- O navegador continua negando acesso ao localhost por uma permissao salva; as capturas das telas foram realizadas no deploy publico. Print da caixa SMTP local ainda pendente.
-- Video de 5 a 7 minutos ainda pendente.
-
-### Configuracao SMTP externa
-
-Em 17/10/2026 foi configurado Brevo SMTP no Render. A compra ficticia #2 foi aprovada, transacao `7644b205-f021-497f-836c-d4b87d6cb6d3`. A confirmacao de e-mail falhou com `Connection refused`; a consulta somente-leitura ao PostgreSQL confirmou o registro FALHA.
-
-O diagnostico encontrou os parametros antigos `localhost:1025` ainda salvos e uma chave SMTP incorreta. Foram corrigidos o host para `smtp-relay.brevo.com`, porta 2525, autenticacao e STARTTLS. Uma nova chave foi gerada e comparada com o valor persistido no Render, sem revelar seu conteudo. A conexao temporaria de diagnostico ao banco foi removida apos a consulta.
-
-Chave, login e remetente ficam nas variaveis privadas do Render, sem inclusao no repositorio ou ZIP.
-
-### Entrega externa confirmada
-
-Em 17/10/2026, apos o deploy corrigido, a compra ficticia #3 de R$ 39,90 foi APROVADA, transacao `3bdc5d5d-6dfb-49d1-a161-6425c0177ff5`. O painel do aplicativo registrou um e-mail enviado. No Brevo, o assunto `Mercadinho - pagamento confirmado #3` apresentou os eventos Enviado e Entregue as 19:05 (America/Sao_Paulo), com destino ao e-mail FIAP da aluna. A previa do corpo continha o mesmo identificador de transacao.
-
-- [Compra aprovada](compra-email-confirmado.jpg).
-- [Confirmacao de entrega no Brevo](email-entregue.jpg).
-- Entregue e o estado informado pelo provedor; nao comprova leitura ou colocacao na caixa de entrada em vez de spam. O print da caixa pessoal ainda depende da aluna.
-- Apos a entrega e autorizacao expressa da aluna, apenas a chave antiga `Mercadinho Render` foi excluida definitivamente. A chave `Mercadinho SMTP validado` permaneceu ativa, sem alteracao das variaveis do site.
-- Esta atualizacao de evidencias nao altera codigo nem repete os sete testes Maven anteriores.
-
-### Interface mais simples
-
-Em 17/10/2026, o CSS foi simplificado a pedido da aluna: Arial, titulos menores, bordas simples, sem fontes externas, sombras ou degrades. Nenhuma regra de negocio foi alterada. O teste de estilo foi atualizado para conferir a nova paleta rosa, Arial, regras responsivas e ausencia dos efeitos removidos. Os sete testes Maven foram executados novamente: zero falhas e zero erros.
-
-Deploy `8f40664` confirmado como Live no Render. Inicio e login conferidos visualmente no navegador; prints `interface-simples.jpg` e `login-simples.jpg` incluidos no README.
-
-### Ajuste visual intermediario
-
-Apos o retorno da aluna, a estrutura em cartoes do layout anterior foi recuperada, mantendo titulos menores, fonte Arial, rosa suave e sem efeitos decorativos. Cantos arredondados e espacamento foram restaurados em todas as telas. Sete testes executados novamente, zero falhas e zero erros. Deploy `f1f4cc4` confirmado como Live; inicio e login conferidos no navegador. Os dois prints acima foram substituidos pelas capturas desta versao intermediaria.
+- O Banco Tranquilo é um simulador; nenhum teste movimenta dinheiro real.
+- No Render, o simulador bancário é embarcado na aplicação. O Compose define o módulo separado.
+- O Docker Compose está disponível para reprodução, mas não foi executado integralmente nesta máquina, pois o motor Docker não iniciou. A integração local foi validada com os serviços portáteis.
+- O script `scripts/testar-compra.ps1` altera o ambiente de destino com produtos e compras fictícias; deve ser executado em ambiente de teste.

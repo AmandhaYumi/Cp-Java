@@ -1,28 +1,18 @@
 CP5 - Java Advanced - Partes 1 e 2
 
+Projeto: Mercadinho
+Aluna: Amandha Yumi Toyota Artulino
+RM: 563549
 Turma: 2TDSPO
-Curso: Tecnologia em Analise e Desenvolvimento de Sistemas (TDS)
-
-Integrantes:
-- Amandha Yumi Toyota Artulino - RM563549
-
+Curso: Tecnologia em Analise e Desenvolvimento de Sistemas
 IDE utilizada: IntelliJ IDEA
-Repositorio GitHub: https://github.com/AmandhaYumi/Cp-Java
+
+GitHub: https://github.com/AmandhaYumi/Cp-Java
 Deploy: https://mercado-express-cp5-rm563549.onrender.com
 Plataforma de deploy: Render
-Video demonstrativo (YouTube nao listado): [COLAR LINK]
+Video: nao informado.
 
-Banco PostgreSQL para avaliacao:
-- Host interno Render: dpg-db9u92eq1p3s739k6g10-a
-- Porta: 5432
-- Database: mercadoexpress
-- Usuario: mercadoexpress
-- Senha: [ENVIAR APENAS AO PROFESSOR; NAO PUBLICAR NO GITHUB]
-
-Observacao: os dados entre colchetes devem ser preenchidos antes da entrega.
-O host interno funciona apenas entre servicos do Render na mesma regiao.
-Para acesso externo do professor, fornecer o External Database URL em canal privado.
-PostgreSQL gratuito criado em 17/10/2026; expiracao indicada no painel: 16/11/2026.
-SMTP externo configurado no Render via Brevo, porta 2525 e STARTTLS.
-Entrega externa da confirmacao da compra ficticia #3 confirmada no Brevo em 17/10/2026, as 19:05 (America/Sao_Paulo): Entregue.
-Evidencias no README; leitura e posicionamento na caixa de entrada/spam nao verificados.
+Banco: PostgreSQL 18 no Render.
+Database: mercadoexpress
+Porta: 5432
+Credenciais de acesso externo: fornecidas separadamente em canal privado.
