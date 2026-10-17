@@ -48,7 +48,7 @@ public class CartController {
         }).toList();
         model.addAttribute("lines", lines);
         model.addAttribute("total", lines.stream().map(CartLine::subtotal).reduce(BigDecimal.ZERO, BigDecimal::add));
-        return "cart";
+        return "carrinho";
     }
 
     @PostMapping("/remove/{id}")

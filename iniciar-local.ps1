@@ -9,7 +9,7 @@ if (-not (Test-Path '.secrets\cloudamqp.properties')) {
 }
 if (-not (Test-Path '.runtime\postgres\pgsql\bin\pg_ctl.exe') -or
     -not (Test-Path '.runtime\mailpit\mailpit.exe')) {
-    throw 'Execute .\PREPARAR-LOCAL.ps1 uma vez antes de iniciar.'
+    throw 'Execute .\preparar-ambiente.ps1 uma vez antes de iniciar.'
 }
 
 $pgBin = Join-Path $PSScriptRoot '.runtime\postgres\pgsql\bin'

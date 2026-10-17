@@ -19,18 +19,18 @@ public class HomeController {
     @GetMapping("/register")
     String register(Model model) {
         model.addAttribute("form", new RegistrationForm());
-        return "register";
+        return "cadastro";
     }
 
     @PostMapping("/register")
     String register(@Valid @ModelAttribute("form") RegistrationForm form, BindingResult binding, Model model) {
-        if (binding.hasErrors()) return "register";
+        if (binding.hasErrors()) return "cadastro";
         try {
             accounts.register(form.getName(), form.getEmail(), form.getPassword());
             return "redirect:/login?registered";
         } catch (IllegalArgumentException ex) {
             model.addAttribute("error", ex.getMessage());
-            return "register";
+            return "cadastro";
         }
     }
 }

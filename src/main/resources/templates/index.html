@@ -1,14 +1,14 @@
 <!doctype html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mercado Express</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mercadinho</title><link rel="stylesheet" th:href="@{/css/estilo.css}"></head>
 <body>
 <header th:replace="~{fragments/layout :: header}"></header>
 <main>
     <section class="hero">
         <div class="hero-copy">
-            <span class="eyebrow">Compra rápida, pagamento tranquilo</span>
-            <h1>Seu mercado cabe no intervalo do café.</h1>
-            <p>Produtos essenciais, checkout integrado ao Banco Tranquilo e confirmação em tempo real.</p>
+            <span class="eyebrow">Seu mercado online</span>
+            <h1>Bem-vindo ao Mercadinho</h1>
+            <p>Escolha seus produtos, adicione ao carrinho e acompanhe suas compras.</p>
             <div class="actions">
                 <a class="button primary" th:href="@{/products}" sec:authorize="isAuthenticated()">Ver produtos</a>
                 <a class="button primary" th:href="@{/register}" sec:authorize="isAnonymous()">Criar minha conta</a>
@@ -16,15 +16,15 @@
             </div>
         </div>
         <div class="hero-card">
-            <span class="pulse"></span><small>Operação integrada</small>
-            <strong>PostgreSQL + RabbitMQ</strong>
+            <span class="pulse"></span><small>Como funciona</small>
+            <strong>Comprar é simples</strong>
             <div class="flow"><span>Compra</span><b>→</b><span>Banco</span><b>→</b><span>E-mail</span></div>
         </div>
     </section>
     <section class="features">
-        <article><span>01</span><h2>Catálogo vivo</h2><p>Estoque e preços atualizados em um CRUD completo.</p></article>
-        <article><span>02</span><h2>Pagamento seguro</h2><p>Transações assíncronas processadas pelo Banco Tranquilo.</p></article>
-        <article><span>03</span><h2>Gestão clara</h2><p>Vendas, lucro, estoque e histórico em um único dashboard.</p></article>
+        <article><span>01</span><h2>Produtos</h2><p>Consulte os produtos disponíveis e os preços.</p></article>
+        <article><span>02</span><h2>Pagamento</h2><p>O Banco Tranquilo simula a aprovação do pagamento.</p></article>
+        <article><span>03</span><h2>Painel de vendas</h2><p>Acompanhe as vendas e o estoque da loja.</p></article>
     </section>
 </main>
 <footer>FIAP · Checkpoint 5 · Java Advanced</footer>

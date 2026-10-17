@@ -14,6 +14,6 @@ public class PurchaseController {
     @GetMapping("/purchases")
     String list(Authentication auth, Model model) {
         model.addAttribute("purchases", purchases.findByCustomerEmailIgnoreCaseOrderByCreatedAtDesc(auth.getName()));
-        return "purchases";
+        return "compras";
     }
 }

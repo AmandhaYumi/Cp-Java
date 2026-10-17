@@ -11,8 +11,8 @@
 	<groupId>br.com.mercadoexpress</groupId>
 	<artifactId>mercadoexpress</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name/>
-	<description/>
+	<name>Mercadinho</name>
+	<description>Loja online para a CP5 de Java Advanced</description>
 	<url/>
 	<licenses>
 		<license/>

@@ -18,11 +18,11 @@ public class EmailService {
     @Value("${app.mail.from}") private String from;
 
     public void sendPaymentConfirmation(Purchase purchase) {
-        String subject = "Mercado Express - pagamento confirmado #" + purchase.getId();
+        String subject = "Mercadinho - pagamento confirmado #" + purchase.getId();
         String body = "Olá, " + purchase.getCustomer().getName() + "!\n\n"
                 + "Seu pagamento de R$ " + purchase.getTotal() + " foi aprovado.\n"
                 + "Transação Banco Tranquilo: " + purchase.getBankTransactionId() + "\n\n"
-                + "Obrigado por comprar no Mercado Express.";
+                + "Obrigado por comprar no Mercadinho.";
         String status = "ENVIADO";
         String details = "Mensagem entregue ao servidor SMTP";
         try {

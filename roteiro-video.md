@@ -9,4 +9,4 @@
 7. **5:50-6:30 - Postman e dashboard:** execute a coleção, depois mostre receita, lucro, estoque, e-mails e o gráfico gerencial.
 8. **6:30-7:00 - Fechamento:** mostre as tabelas no PostgreSQL e o link do deploy.
 
-Antes de gravar, suba o ambiente com `.\INICIAR-LOCAL.ps1` e deixe abertas as abas da aplicacao, do painel CloudAMQP, Mailpit e Postman. Mostre tambem o servico Java separado em `banco-tranquilo/` e `http://localhost:9090/actuator/health`.
+Antes de gravar, suba o ambiente com `.\iniciar-local.ps1` e deixe abertas as abas da aplicacao, do painel CloudAMQP, Mailpit e Postman. Mostre tambem o servico Java separado em `banco-tranquilo/` e `http://localhost:9090/actuator/health`.

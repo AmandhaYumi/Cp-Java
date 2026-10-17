@@ -15,4 +15,4 @@ if (-not (Test-Path '.runtime\mailpit\mailpit.exe')) {
     Invoke-WebRequest -Uri 'https://github.com/axllent/mailpit/releases/download/v1.31.6/mailpit-windows-amd64.zip' -OutFile "$downloadDir\mailpit.zip"
     Expand-Archive -Path "$downloadDir\mailpit.zip" -DestinationPath '.runtime\mailpit' -Force
 }
-Write-Host 'Dependencias locais prontas. Execute .\INICIAR-LOCAL.ps1.'
+Write-Host 'Dependencias locais prontas. Execute .\iniciar-local.ps1.'

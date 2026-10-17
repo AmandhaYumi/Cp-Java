@@ -1,4 +1,4 @@
-# Mercado Express - CP5 Java Advanced
+# Mercadinho - CP5 Java Advanced
 
 **Aluna:** Amandha Yumi Toyota Artulino - **RM:** 563549 - **Turma:** 2TDSPO.
 
@@ -7,6 +7,8 @@
 **Deploy:** https://mercado-express-cp5-rm563549.onrender.com
 
 Aplicação full stack em Java 21 que reúne as duas partes do Checkpoint 5: um e-commerce MVC protegido com Spring Security e um fluxo de pagamentos assíncrono com RabbitMQ, API do Banco Tranquilo, e-mail e dashboard gerencial.
+
+O site agora se chama **Mercadinho** e usa uma paleta rosa. Os arquivos das telas usam nomes simples: `cadastro.html`, `carrinho.html`, `compras.html`, `produtos/lista.html`, `produtos/formulario.html`, `admin/painel.html` e `css/estilo.css`. Scripts: `iniciar-local.ps1`, `iniciar-docker.ps1`, `iniciar-nuvem.ps1`, `preparar-ambiente.ps1`, `gerar-zip.ps1` e `enviar-github.ps1`. Os pacotes Java, as contas de demonstracao, o endereco do Render e os identificadores de banco/mensageria foram preservados para manter a compatibilidade.
 
 ![Configuração do Spring Initializr](docs/spring-initializr.png)
 
@@ -105,21 +107,21 @@ Use `docker compose down -v` somente se desejar apagar também os dados do banco
 **Modo validado nesta maquina: PostgreSQL persistente + RabbitMQ CloudAMQP + Mailpit + Banco Tranquilo separado.** Execute na pasta que contem `pom.xml`:
 
 ```powershell
-.\INICIAR-LOCAL.ps1
+.\iniciar-local.ps1
 ```
 
-Em uma maquina nova, primeiro execute `.\PREPARAR-LOCAL.ps1`, que baixa PostgreSQL e Mailpit dos fornecedores oficiais. Configure sua instancia RabbitMQ em `.secrets/cloudamqp.properties`. O script inicia o PostgreSQL apenas em `127.0.0.1:55432`, o SMTP apenas em `127.0.0.1:1025`, a caixa de e-mails em `http://localhost:8025` e o Banco Tranquilo separado em `http://localhost:9090`. Depois inicia o mercado em `http://localhost:8080`.
+Em uma maquina nova, primeiro execute `.\preparar-ambiente.ps1`, que baixa PostgreSQL e Mailpit dos fornecedores oficiais. Configure sua instancia RabbitMQ em `.secrets/cloudamqp.properties`. O script inicia o PostgreSQL apenas em `127.0.0.1:55432`, o SMTP apenas em `127.0.0.1:1025`, a caixa de e-mails em `http://localhost:8025` e o Banco Tranquilo separado em `http://localhost:9090`. Depois inicia o mercado em `http://localhost:8080`.
 
 Os dados persistem em `.runtime/postgres-data/` e os e-mails em `.runtime/mailpit.db`. A senha do banco local e gerada automaticamente em `.secrets/postgres-password.txt`. Esses arquivos privados nao entram no Git nem no ZIP. Mailpit e uma caixa SMTP de testes: o recebimento e real no servidor local, mas nao ha entrega para Gmail/Outlook.
 
-O fluxo foi validado com aprovacao, recusa, devolucao de estoque, auditoria de e-mail e persistencia apos reinicio. Veja [evidencias de validacao](docs/VALIDACAO.md).
+O fluxo foi validado com aprovacao, recusa, devolucao de estoque, auditoria de e-mail e persistencia apos reinicio. Veja [evidencias de validacao](docs/testes.md).
 
 ### Alternativa com Docker e RabbitMQ CloudAMQP
 
 Para a demonstracao completa usando seu RabbitMQ CloudAMQP e PostgreSQL persistente, abra o Docker Desktop e execute:
 
 ```powershell
-.\INICIAR-COMPLETO.ps1
+.\iniciar-docker.ps1
 ```
 
 Esse comando sobe apenas PostgreSQL e MailHog no Docker, e inicia a aplicacao Java com o perfil `cloud`. O banco persiste no volume Docker `postgres_data`. Acesse `http://localhost:8025` para ler as mensagens capturadas pelo servidor SMTP de teste. MailHog recebe e-mails localmente; nao envia para uma caixa externa.
@@ -127,7 +129,7 @@ Esse comando sobe apenas PostgreSQL e MailHog no Docker, e inicia a aplicacao Ja
 Para usar a instancia real do CloudAMQP configurada nesta maquina, execute na pasta do projeto:
 
 ```powershell
-.\INICIAR-CLOUD.ps1
+.\iniciar-nuvem.ps1
 ```
 
 O script ativa `demo,cloud`: banco H2 temporario e RabbitMQ real por TLS. Os dados do banco sao apagados ao encerrar; para a entrega, use PostgreSQL com apenas o perfil `cloud`. O envio de e-mail continua exigindo SMTP configurado.
@@ -163,7 +165,7 @@ Novos cadastros recebem automaticamente o perfil `CLIENTE`. As contas acima são
 
 ## API e Postman
 
-Importe [`postman/Mercado-Express-CP5.postman_collection.json`](postman/Mercado-Express-CP5.postman_collection.json). A API usa autenticação Basic para facilitar a demonstração no Postman.
+Importe [`postman/Mercadinho.postman_collection.json`](postman/Mercadinho.postman_collection.json). A API usa autenticação Basic para facilitar a demonstração no Postman.
 
 Exemplo de checkout:
 
@@ -228,7 +230,7 @@ Ha tambem tres testes de integracao de checkout: aprovacao e e-mail persistidos 
 Para repetir a verificacao com PostgreSQL, RabbitMQ real, servico bancario e SMTP locais em execucao:
 
 ```powershell
-.\scripts\TESTAR-INTEGRACAO.ps1
+.\scripts\testar-compra.ps1
 ```
 
 O script cria um produto de teste, atualiza, efetua uma compra aprovada e outra recusada, verifica o e-mail e o estoque, testa o acesso do cliente ao dashboard e exclui logicamente o produto de teste. O historico de compras de teste e mantido.
@@ -252,10 +254,10 @@ Em 17/10/2026, o repositorio foi publicado e os servicos `mercado-express-cp5-rm
 ## Material de entrega
 
 - `entrega.txt`: identificacao, GitHub e deploy preenchidos; completar link do video e fornecer acesso ao banco apenas em canal privado.
-- `ROTEIRO-VIDEO.md`: roteiro de 5 a 7 minutos cobrindo todos os itens pedidos.
+- `roteiro-video.md`: roteiro de 5 a 7 minutos cobrindo todos os itens pedidos.
 - `postman/`: coleção pronta para importação.
 - `docs/spring-initializr.png`: print obrigatório das dependências.
 - `docs/rabbitmq-filas.png`: print real fornecido pelo aluno, incluido neste README.
-- `docs/VALIDACAO.md`: resultados e limites dos testes executados.
+- `docs/testes.md`: resultados e limites dos testes executados.
 
 Antes de enviar, configure o SMTP externo e acrescente o print da caixa de e-mail; forneca o acesso ao banco ao professor em canal privado; grave o video de 5 a 7 minutos e complete seu link em `entrega.txt`; confirme o acesso publico nao listado; e atualize o ZIP sem `target/`, `.runtime/`, `.secrets/`, `.idea/` e `.env`.

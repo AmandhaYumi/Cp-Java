@@ -20,15 +20,15 @@ public class ProductController {
     String list(@RequestParam(required = false) String search, Model model) {
         model.addAttribute("products", products.list(search));
         model.addAttribute("search", search);
-        return "products/list";
+        return "produtos/lista";
     }
 
     @GetMapping("/new")
-    String create(Model model) { model.addAttribute("product", new Product()); return "products/form"; }
+    String create(Model model) { model.addAttribute("product", new Product()); return "produtos/formulario"; }
 
     @PostMapping
     String create(@Valid @ModelAttribute Product product, BindingResult binding) {
-        if (binding.hasErrors()) return "products/form";
+        if (binding.hasErrors()) return "produtos/formulario";
         products.save(product);
         return "redirect:/products?saved";
     }
@@ -36,12 +36,12 @@ public class ProductController {
     @GetMapping("/{id}/edit")
     String edit(@PathVariable Long id, Model model) {
         model.addAttribute("product", products.get(id));
-        return "products/form";
+        return "produtos/formulario";
     }
 
     @PostMapping("/{id}")
     String update(@PathVariable Long id, @Valid @ModelAttribute Product product, BindingResult binding) {
-        if (binding.hasErrors()) return "products/form";
+        if (binding.hasErrors()) return "produtos/formulario";
         products.update(id, product);
         return "redirect:/products?saved";
     }

@@ -13,6 +13,6 @@ public class AdminController {
     @GetMapping("/admin/dashboard")
     String dashboard(Model model) {
         model.addAttribute("dashboard", dashboards.load());
-        return "admin/dashboard";
+        return "admin/painel";
     }
 }

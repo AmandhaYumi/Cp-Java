@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
@@ -29,11 +30,23 @@ public class DataSeeder implements CommandLineRunner {
         }
         if (products.count() == 0) {
             products.saveAll(List.of(
-                    new Product("Kit de frutas frescas", "Hortifruti", "Seleção com banana, maçã, laranja e mamão.", new BigDecimal("39.90"), new BigDecimal("24.50"), 30),
-                    new Product("Cesta café da manhã", "Mercearia", "Itens essenciais para começar bem o dia.", new BigDecimal("54.90"), new BigDecimal("33.00"), 20),
-                    new Product("Combo limpeza express", "Limpeza", "Detergente, desinfetante, esponja e pano multiuso.", new BigDecimal("47.50"), new BigDecimal("28.20"), 25),
-                    new Product("Pack meias confort", "Vestuário", "Seis pares de meias de algodão.", new BigDecimal("36.00"), new BigDecimal("17.80"), 40)
+                    new Product("Cesta de frutas", "Hortifruti", "Banana, maçã, laranja e mamão.", new BigDecimal("39.90"), new BigDecimal("24.50"), 30),
+                    new Product("Cesta de café da manhã", "Mercearia", "Itens para o café da manhã.", new BigDecimal("54.90"), new BigDecimal("33.00"), 20),
+                    new Product("Kit de limpeza", "Limpeza", "Detergente, desinfetante, esponja e pano multiuso.", new BigDecimal("47.50"), new BigDecimal("28.20"), 25),
+                    new Product("Meias de algodão", "Vestuário", "Seis pares de meias de algodão.", new BigDecimal("36.00"), new BigDecimal("17.80"), 40)
             ));
         }
+        Map<String, String> previousNames = Map.of(
+                "Kit de frutas frescas", "Cesta de frutas",
+                "Cesta café da manhã", "Cesta de café da manhã",
+                "Combo limpeza express", "Kit de limpeza",
+                "Pack meias confort", "Meias de algodão");
+        products.findAll().forEach(product -> {
+            String name = previousNames.get(product.getName());
+            if (name != null) {
+                product.setName(name);
+                products.save(product);
+            }
+        });
     }
 }

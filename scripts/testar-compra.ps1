@@ -43,7 +43,7 @@ $stock = ($catalog | Where-Object id -EQ $product.id).stock
 Assert-That ($stock -eq 3) 'Estoque incorreto depois da aprovacao e da recusa.'
 
 $emails = Invoke-RestMethod 'http://localhost:8025/api/v1/messages'
-$confirmation = $emails.messages | Where-Object Subject -EQ "Mercado Express - pagamento confirmado #$($approved.purchaseId)"
+$confirmation = $emails.messages | Where-Object Subject -EQ "Mercadinho - pagamento confirmado #$($approved.purchaseId)"
 Assert-That ($null -ne $confirmation) 'Confirmacao de pagamento nao encontrada no SMTP local.'
 
 Invoke-RestMethod "$BaseUrl/api/products/$($product.id)" -Method Delete -Headers $manager
