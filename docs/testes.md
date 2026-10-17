@@ -56,4 +56,8 @@ Deploy `c6b0712` confirmado no Render em 17/10/2026. Conferidos no navegador: in
 - Repositorio publicado: `https://github.com/AmandhaYumi/Cp-Java`. Autenticacao via Git Credential Manager concluida pela aluna; push de `main` confirmado no remoto.
 - Render configurado com Docker Free, PostgreSQL 18 Free e RabbitMQ externo TLS. Senhas exclusivamente nas variaveis privadas. Banco gratuito com expiracao indicada para 16/11/2026.
 - O navegador continua negando acesso ao localhost por uma permissao salva; as capturas das telas foram realizadas no deploy publico. Print da caixa SMTP local ainda pendente.
-- Video de 5 a 7 minutos e credenciais SMTP para entrega externa ainda pendentes.
+- Video de 5 a 7 minutos ainda pendente.
+
+### Configuracao SMTP externa
+
+Em 17/10/2026 foi criada uma chave SMTP no Brevo e configurado o servico Render com `smtp-relay.brevo.com`, porta 2525, autenticacao e STARTTLS. Chave, login e remetente verificado foram salvos exclusivamente nas variaveis privadas do Render, sem inclusao no repositorio ou ZIP. A chave esta ativa no Brevo. O recebimento externo ainda nao foi confirmado: o teste de compra depende da aluna concluir o cadastro e login com seu e-mail real.
