@@ -36,5 +36,8 @@ Captura fornecida pelo aluno. Os demais prints da interface ainda dependem de ca
 - Banco Tranquilo e um simulador educacional, nao uma conexao bancaria real.
 - Mailpit nao encaminha mensagens para caixas externas. Para e-mail externo no deploy, informe um SMTP real em `MAIL_*`.
 - O Docker Compose foi preparado, mas o motor Docker desta maquina nao iniciou; a validacao completa usou os binarios portateis.
-- GitHub e deploy publico ainda dependem de definir o repositorio e conectar a conta Render.
-- Identificacao, demais prints e video de 5 a 7 minutos ainda precisam ser incluidos antes da entrega.
+- Identificacao preenchida: Amandha Yumi Toyota Artulino, RM563549, turma 2TDSPO.
+- Repositorio definido: `https://github.com/AmandhaYumi/Cp-Java`. Commit local preparado; envio bloqueado por falha de autenticacao do Git. A conexao GitHub disponivel nesta sessao possui apenas leitura nesse repositorio.
+- O Render abriu a tela de login; o deploy depende de entrar na conta.
+- O navegador continua negando acesso ao localhost por uma permissao salva, apesar da autorizacao em texto; os demais prints aguardam liberacao dessa permissao.
+- Video de 5 a 7 minutos e credenciais SMTP para entrega externa ainda pendentes.
