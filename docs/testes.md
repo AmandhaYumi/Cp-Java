@@ -75,3 +75,9 @@ Em 17/10/2026, apos o deploy corrigido, a compra ficticia #3 de R$ 39,90 foi APR
 - Entregue e o estado informado pelo provedor; nao comprova leitura ou colocacao na caixa de entrada em vez de spam. O print da caixa pessoal ainda depende da aluna.
 - Apos a entrega e autorizacao expressa da aluna, apenas a chave antiga `Mercadinho Render` foi excluida definitivamente. A chave `Mercadinho SMTP validado` permaneceu ativa, sem alteracao das variaveis do site.
 - Esta atualizacao de evidencias nao altera codigo nem repete os sete testes Maven anteriores.
+
+### Interface mais simples
+
+Em 17/10/2026, o CSS foi simplificado a pedido da aluna: Arial, titulos menores, bordas simples, sem fontes externas, sombras ou degrades. Nenhuma regra de negocio foi alterada. O teste de estilo foi atualizado para conferir a nova paleta rosa, Arial, regras responsivas e ausencia dos efeitos removidos. Os sete testes Maven foram executados novamente: zero falhas e zero erros.
+
+Deploy `8f40664` confirmado como Live no Render. Inicio e login conferidos visualmente no navegador; prints `interface-simples.jpg` e `login-simples.jpg` incluidos no README.
