@@ -6,7 +6,7 @@
 
 **Deploy:** https://mercado-express-cp5-rm563549.onrender.com
 
-Aplicação full stack em Java 21 que reúne as duas partes do Checkpoint 5: um e-commerce MVC protegido com Spring Security e um fluxo de pagamentos assíncrono com RabbitMQ, API do Banco Tranquilo, e-mail e dashboard gerencial.
+Projeto das partes 1 e 2 da CP5 de Java Advanced. É uma loja online com cadastro, login, produtos, carrinho, pagamento simulado, e-mail e painel de vendas.
 
 O site agora se chama **Mercadinho** e usa uma paleta rosa. Os arquivos das telas usam nomes simples: `cadastro.html`, `carrinho.html`, `compras.html`, `produtos/lista.html`, `produtos/formulario.html`, `admin/painel.html` e `css/estilo.css`. Scripts: `iniciar-local.ps1`, `iniciar-docker.ps1`, `iniciar-nuvem.ps1`, `preparar-ambiente.ps1`, `gerar-zip.ps1` e `enviar-github.ps1`. Os pacotes Java, as contas de demonstracao, o endereco do Render e os identificadores de banco/mensageria foram preservados para manter a compatibilidade.
 
@@ -22,14 +22,14 @@ Print fornecido durante a configuracao da instancia: as filas `mercado.pagamento
 
 Capturas de 17/10/2026. Login de gerente e compra ficticia #1 aprovados no Render com PostgreSQL e RabbitMQ externos; transacao `e420b91c-9b09-477d-b560-8bc95eb56462`. O dashboard mostra zero e-mails enviados porque o SMTP externo ainda nao foi configurado.
 
-![Landing page](docs/landing.jpg)
+![Inicio do Mercadinho](docs/inicio.jpg)
 ![Login personalizado](docs/login.jpg)
 ![Cadastro](docs/cadastro.jpg)
 ![Catalogo e controles CRUD do gerente](docs/catalogo.jpg)
 ![Formulario de produto](docs/produto-formulario.jpg)
-![Carrinho com cartao ficticio](docs/carrinho.jpg)
+![Carrinho e formulario de pagamento](docs/carrinho.jpg)
 ![Compra aprovada com identificador da transacao](docs/compras.jpg)
-![Dashboard gerencial](docs/dashboard.jpg)
+![Painel de vendas](docs/painel.jpg)
 
 ## Funcionalidades entregues
 
@@ -224,6 +224,8 @@ $env:JAVA_HOME='C:\Program Files\Java\jdk-21'
 ```
 
 O teste de contexto usa o perfil `test` e banco H2 isolado, portanto não depende do PostgreSQL nem do RabbitMQ.
+
+`TelasTests` verifica as paginas publicas, a abertura das telas renomeadas pelo gerente, o novo nome e CSS rosa, e o bloqueio do painel para clientes. Total atual: sete testes, sem falhas.
 
 Ha tambem tres testes de integracao de checkout: aprovacao e e-mail persistidos apos commit, recusa com devolucao de estoque, e rejeicao de estoque insuficiente sem chamar o banco.
 

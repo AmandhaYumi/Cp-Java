@@ -43,6 +43,12 @@ Captura RabbitMQ fornecida pelo aluno. Prints reais do deploy foram adicionados 
 
 ## Limites e pendencias externas
 
+### Atualizacao para Mercadinho
+
+Nome do site, textos e produtos simplificados; tema rosa; nomes de templates, scripts e documentos em portugues. Identificadores internos preservados. Sete testes Maven passaram, incluindo tres novos testes HTTP das telas renomeadas e da restricao do painel para clientes.
+
+Deploy `c6b0712` confirmado no Render em 17/10/2026. Conferidos no navegador: inicio, cadastro, login do gerente, catalogo com novos nomes, formulario de produto, carrinho, historico e painel. Compra #1 e indicadores anteriores preservados. Capturas atualizadas no README com tema rosa.
+
 - Banco Tranquilo e um simulador educacional, nao uma conexao bancaria real.
 - Mailpit nao encaminha mensagens para caixas externas. Para e-mail externo no deploy, informe um SMTP real em `MAIL_*`.
 - O Docker Compose foi preparado, mas o motor Docker desta maquina nao iniciou; a validacao completa usou os binarios portateis.
