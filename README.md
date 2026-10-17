@@ -20,12 +20,12 @@ Print fornecido durante a configuracao da instancia: as filas `mercado.pagamento
 
 ## Telas reais do deploy
 
-Interface simplificada a pedido da aluna: fonte Arial, titulos menores, bordas retas, sem sombras ou degrades e formularios mais basicos. O rosa e as funcionalidades foram mantidos. As capturas abaixo documentam os testes anteriores a essa simplificacao visual.
+Interface ajustada a pedido da aluna para um meio-termo: a estrutura de cartoes do visual original voltou, com cantos arredondados, rosa suave, titulos menores e fonte Arial. Sem sombras, degrades ou cartao inclinado. As funcionalidades foram mantidas.
 
-Versao simples publicada e conferida no Render em 17/10/2026:
+Versao intermediaria publicada e conferida no Render em 17/10/2026:
 
-![Inicio com interface simples](docs/interface-simples.jpg)
-![Login com formulario simples](docs/login-simples.jpg)
+![Inicio com visual rosa intermediario](docs/interface-simples.jpg)
+![Login com visual rosa intermediario](docs/login-simples.jpg)
 
 ### Capturas anteriores dos testes funcionais
 

@@ -81,3 +81,7 @@ Em 17/10/2026, apos o deploy corrigido, a compra ficticia #3 de R$ 39,90 foi APR
 Em 17/10/2026, o CSS foi simplificado a pedido da aluna: Arial, titulos menores, bordas simples, sem fontes externas, sombras ou degrades. Nenhuma regra de negocio foi alterada. O teste de estilo foi atualizado para conferir a nova paleta rosa, Arial, regras responsivas e ausencia dos efeitos removidos. Os sete testes Maven foram executados novamente: zero falhas e zero erros.
 
 Deploy `8f40664` confirmado como Live no Render. Inicio e login conferidos visualmente no navegador; prints `interface-simples.jpg` e `login-simples.jpg` incluidos no README.
+
+### Ajuste visual intermediario
+
+Apos o retorno da aluna, a estrutura em cartoes do layout anterior foi recuperada, mantendo titulos menores, fonte Arial, rosa suave e sem efeitos decorativos. Cantos arredondados e espacamento foram restaurados em todas as telas. Sete testes executados novamente, zero falhas e zero erros. Deploy `f1f4cc4` confirmado como Live; inicio e login conferidos no navegador. Os dois prints acima foram substituidos pelas capturas desta versao intermediaria.
