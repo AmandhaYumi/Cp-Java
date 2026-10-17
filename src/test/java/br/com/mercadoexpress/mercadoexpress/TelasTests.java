@@ -42,7 +42,10 @@ class TelasTests {
             assertThat(response.body()).contains("Mercadinho", "/css/estilo.css")
                     .doesNotContain("Mercado Express", "/css/style.css");
         }
-        assertThat(get("/css/estilo.css", null).body()).contains("#fff3f7", "#a52b66");
+        HttpResponse<String> stylesheet = get("/css/estilo.css", null);
+        assertThat(stylesheet.statusCode()).isEqualTo(200);
+        assertThat(stylesheet.body()).contains("#fff5f8", "#a12f60", "Arial", "@media")
+                .doesNotContain("fonts.googleapis.com", "linear-gradient", "box-shadow");
     }
 
     @Test
