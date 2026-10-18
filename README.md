@@ -10,7 +10,8 @@ Projeto das partes 1 e 2 da CP5 de Java Advanced: uma loja online com controle d
 
 - [Aplicação no Render](https://mercado-express-cp5-rm563549.onrender.com/)
 - [Repositório no GitHub](https://github.com/AmandhaYumi/Cp-Java)
-
+- [Vídeo](youtube.com/watch?v=2-JJ8smLS0s&feature=youtu.be)
+  
 ## Sobre o projeto
 
 O Mercadinho permite consultar produtos, criar uma conta e realizar compras com pagamento fictício. O gerente pode cadastrar, editar e desativar produtos, além de acompanhar os resultados da loja. As informações são persistidas no PostgreSQL.
@@ -220,4 +221,3 @@ O script `scripts/testar-compra.ps1` permite testar o fluxo no ambiente local co
 
 A aplicação está no Render, com build pelo `Dockerfile`, PostgreSQL gerenciado, RabbitMQ no CloudAMQP e SMTP do Brevo. O arquivo `render.yaml` descreve a configuração de implantação. As credenciais ficam nas variáveis privadas do serviço. O endpoint `/actuator/health` fornece a verificação de saúde.
 
-O plano gratuito pode suspender a aplicação quando não há acesso. O banco gratuito criado para este projeto indica expiração em 16/11/2026.
